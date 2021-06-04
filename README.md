@@ -1,4 +1,4 @@
-![aws-cli](https://user-images.githubusercontent.com/22112831/119214763-32b63f80-bb04-11eb-93e3-9d702df322cf.png)
+![aws-cli](https://user-images.githubusercontent.com/22112831/120754653-f0e7b900-c547-11eb-9c80-d5a616bef9c3.png)
 
 
 # 作りながら覚える AWS CLI 入門講座
