@@ -22,8 +22,9 @@ if [ "$?" -ne 0 ]; then
   yum list installed | grep mariadb
   sudo yum remove mariadb-libs -y
 
-  # add repo
-  sudo yum install -y https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
+  # import GnuPG key and upgrade package
+  sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+  sudo rpm -Uvh https://dev.mysql.com/get/mysql80-community-release-el7-7.noarch.rpm
 
   # disable mysql5.7 repo and enable mysql8.0 repo
   sudo yum-config-manager --disable mysql57-community
@@ -34,5 +35,5 @@ if [ "$?" -ne 0 ]; then
 fi
 
 # Create index.html
-echo "<h1>${EC2_NAME}</h1>" > index.html
-sudo mv ./index.html  /usr/share/nginx/html/
+echo "<h1>${EC2_NAME}</h1>" >index.html
+sudo mv ./index.html /usr/share/nginx/html/
