@@ -35,14 +35,14 @@ NETWORK_INTERFACE_ID=$(aws ec2 describe-instances \
   --query "Reservations[*].Instances[*].NetworkInterfaces[*].NetworkInterfaceId" \
   --output text) && echo $NETWORK_INTERFACE_ID
 
-VOLUME_IDS=$(aws ec2 describe-instances \
+## 2024/10/20 VOLUME_IDS の変数を配列に修正
+VOLUME_IDS=($(aws ec2 describe-instances \
   --instance-id $INSTANCE_ID \
   --query "Reservations[*].Instances[*].BlockDeviceMappings[*].Ebs.VolumeId" \
-  --output text) && echo $VOLUME_IDS
+  --output text)) && echo "${VOLUME_IDS[@]}"
 
-aws ec2 create-tags --resources $NETWORK_INTERFACE_ID $VOLUME_IDS --tags Key=Name,Value=$EC2_NAME
+aws ec2 create-tags --resources "$NETWORK_INTERFACE_ID" "${VOLUME_IDS[@]}" --tags Key=Name,Value=$EC2_NAME
 
 # Check HTTP connection
 PUBLIC_IP_ADDRESS=$(aws ec2 describe-instances --instance-id $INSTANCE_ID --query "Reservations[*].Instances[*].PublicIpAddress" --output text) && echo $PUBLIC_IP_ADDRESS
 curl http://$PUBLIC_IP_ADDRESS
-
